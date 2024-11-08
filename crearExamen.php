@@ -4,14 +4,6 @@ require_once __DIR__ . "/php/conexion/conexion.php";
 
 $pdo = conn::conn();
 
-$query = "SELECT * FROM materia";
-
-$stmt = $pdo->prepare($query);
-
-$stmt->execute();
-
-$materias = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 $query = "SELECT * FROM maestro";
 
 $stmt = $pdo->prepare($query);
@@ -27,15 +19,6 @@ $stmt = $pdo->prepare($query);
 $stmt->execute();
 
 $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$query = "SELECT * FROM grupo";
-
-$stmt = $pdo->prepare($query);
-
-$stmt->execute();
-
-$grupos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 ?>
 
