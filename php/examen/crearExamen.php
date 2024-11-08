@@ -41,7 +41,6 @@ $titulo = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($titulo) {
     // Concatenar los datos para crear el título del examen
     $titulo_examen = $titulo['materia'] . " - " . $titulo['parcial'] . " - " . $titulo['semestre'] . " - " . $titulo['grupo'] . " - " . $titulo['maestro'];
-    echo "Título del examen: " . $titulo_examen;
 } else {
     echo "No se encontró información para generar el título del examen.";
 }
@@ -61,7 +60,7 @@ $query = "
     WHERE mm.idMateria = :materia_id
     AND r.idParcial = :parcial_id
     ORDER BY RAND()
-    LIMIT 5;
+    LIMIT 6;
 ";
 
 $stmt = $pdo->prepare($query);
@@ -70,45 +69,70 @@ $stmt->bindParam(':materia_id', $materia);
 $stmt->execute();
 $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($preguntas) {
-    echo "<form action='procesar_respuestas.php' method='POST'>";
+?>
 
-    foreach ($preguntas as $pregunta) {
-        $reactivo_id = $pregunta['reactivo_id'];
-        $texto_pregunta = $pregunta['pregunta'];
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen <?php echo $titulo['materia']?></title>
+</head>
+<body>
+    <header>
+        <h1>Examen <?php echo $titulo_examen?></h1>
+        <a href="../../inicio.php">Regresar al menú principal</a>
+    </header>
+    <main>
+        <div class="examen">
+            <?php
+                if ($preguntas) {
+                    echo "<form action='procesar_respuestas.php' method='POST'>";
+                    echo "<input type='hidden' name='titulo_examen' value='$titulo_examen'>";
 
-        // Muestra la pregunta
-        echo "<h3>$texto_pregunta</h3>";
+                    foreach ($preguntas as $pregunta) {
+                        $reactivo_id = $pregunta['reactivo_id'];
+                        $texto_pregunta = $pregunta['pregunta'];
 
-        // Inserta la pregunta en la tabla examen_reactivo para asociarla con el examen actual
-        $query = "INSERT INTO examen_reactivo (examen_id, reactivo_id) VALUES (:examen_id, :reactivo_id)";
-        $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':examen_id', $idExamen);
-        $stmt->bindParam(':reactivo_id', $reactivo_id);
-        $stmt->execute();
+                        // Muestra la pregunta
+                        echo "<h3>$texto_pregunta</h3>";
 
-        // Selecciona las opciones de respuesta para la pregunta actual
-        $query = "SELECT id, descripcion, es_correcta FROM opciones WHERE reactivo_id = :reactivo_id";
-        $stmt_opciones = $pdo->prepare($query);
-        $stmt_opciones->bindParam(':reactivo_id', $reactivo_id);
-        $stmt_opciones->execute();
-        $opciones = $stmt_opciones->fetchAll(PDO::FETCH_ASSOC);
+                        // Inserta la pregunta en la tabla examen_reactivo para asociarla con el examen actual
+                        $query = "INSERT INTO examen_reactivo (examen_id, reactivo_id) VALUES (:examen_id, :reactivo_id)";
+                        $stmt = $pdo->prepare($query);
+                        $stmt->bindParam(':examen_id', $idExamen);
+                        $stmt->bindParam(':reactivo_id', $reactivo_id);
+                        $stmt->execute();
 
-        // Muestra las opciones como radio buttons
-        foreach ($opciones as $opcion) {
-            $opcion_id = $opcion['id'];
-            $descripcion = $opcion['descripcion'];
+                        // Selecciona las opciones de respuesta para la pregunta actual
+                        $query = "SELECT id, descripcion, es_correcta FROM opciones WHERE reactivo_id = :reactivo_id";
+                        $stmt_opciones = $pdo->prepare($query);
+                        $stmt_opciones->bindParam(':reactivo_id', $reactivo_id);
+                        $stmt_opciones->execute();
+                        $opciones = $stmt_opciones->fetchAll(PDO::FETCH_ASSOC);
 
-            echo "<label>";
-            echo "<input type='radio' name='respuesta_$reactivo_id' value='$opcion_id'> $descripcion";
-            echo "</label><br>";
-        }
-        echo "<br>";
-    }
+                        // Muestra las opciones como radio buttons
+                        foreach ($opciones as $opcion) {
+                            $opcion_id = $opcion['id'];
+                            $descripcion = $opcion['descripcion'];
+                            
+                            echo "<div class='opcion'>";
+                            echo "<label>";
+                            echo "<input type='radio' name='respuesta_$reactivo_id' value='$opcion_id'> $descripcion";
+                            echo "</label><br>";
+                            echo "</div";
+                        }
+                        echo "<br>";
+                    }
 
-    echo "<input type='submit' value='Enviar'>";
-    echo "</form>";
-} else {
-    echo "No se encontraron reactivos.";
-}
+                    echo "<button type='submit' value='Enviar'>Enviar respuesta</button>";
+                    echo "</form>";
+                } else {
+                    echo "No se encontraron reactivos.";
+                }
+            ?>
+        </div>
+    </main>
+</body>
+</html>
 

@@ -7,6 +7,9 @@ $pdo = conn::conn();
 // Variables para llevar la cuenta de respuestas correctas e incorrectas
 $total_preguntas = 0;
 $respuestas_correctas = 0;
+$titulo_examen = $_POST['titulo_examen'];
+
+echo $titulo_examen;
 
 // Recorre todas las respuestas enviadas
 foreach ($_POST as $clave => $valor) {
@@ -54,12 +57,36 @@ foreach ($_POST as $clave => $valor) {
                 $es_correcta = $opcion['es_correcta'];
 
                 // Marca la opción seleccionada y si es correcta
-                $correcto = ($opcion_id == $opcion_id_seleccionada) ? ($es_correcta ? " - Correcta" : " - Incorrecta") : "";
-
+                if ($opcion_id == $opcion_id_seleccionada) {
+                    if ($es_correcta) {
+                        $correcto = " - Correcta";
+                    } else {
+                        $correcto = " - Incorrecta";
+                    }
+                } else {
+                    $correcto = "";
+                }
+                
                 echo "<label>";
-                echo "<input type='radio' name='respuesta_$reactivo_id' value='$opcion_id' disabled" .
-                    (($opcion_id == $opcion_id_seleccionada) ? " checked" : "") . "> $descripcion$correcto";
+
+                echo "<input type='radio' name='respuesta_$reactivo_id' value='$opcion_id' disabled";
+
+                if ($opcion_id == $opcion_id_seleccionada) {
+                    echo " checked";
+                }
+
+                echo "> $descripcion";
+
+                if ($opcion_id == $opcion_id_seleccionada) {
+                    if ($es_correcta) {
+                        echo " - Correcta";
+                    } else {
+                        echo " - Incorrecta";
+                    }
+                }
+
                 echo "</label><br>";
+
             }
             echo "<br>";
         }
