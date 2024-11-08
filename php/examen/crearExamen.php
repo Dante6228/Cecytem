@@ -76,12 +76,13 @@ $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/examen.css">
+    <link rel="stylesheet" href="../../css/general.css">
     <title>Examen <?php echo $titulo['materia']?></title>
 </head>
 <body>
     <header>
         <h1>Examen <?php echo $titulo_examen?></h1>
-        <a href="../../inicio.php">Regresar al menú principal</a>
     </header>
     <main>
         <div class="examen">
@@ -133,6 +134,13 @@ $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
         </div>
     </main>
+    <nav>
+        <ul>
+            <li>
+                <a href="../../inicio.php">Regresar al menú principal</a>
+            </li>
+        </ul>
+    </nav>
 </body>
 </html>
 

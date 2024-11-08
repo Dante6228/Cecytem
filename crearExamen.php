@@ -27,6 +27,8 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/examen.css">
+    <link rel="stylesheet" href="css/general.css">
     <title>Crear examen</title>
 </head>
 <body>
@@ -34,12 +36,11 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1>Crear examen</h1>
     </header>
     <main>
-        <a href="inicio.php">Regresar</a>
         <div class="contenedor">
             <form action="php/examen/crearExamen.php" method="post">
                 <div class="content">
                     <label for="semestre">Semestre</label>
-                    <select name="semestre" id="semestre" onchange="cargarGrupos()">
+                    <select name="semestre" id="semestre" onchange="cargarGrupos()" required>
                         <option value="">Selecciona un semestre</option>
                         <?php
 
@@ -52,19 +53,19 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="content">
                     <label for="grupo">Grupo</label>
-                    <select name="grupo" id="grupo" onchange="cargarParciales()">
+                    <select name="grupo" id="grupo" onchange="cargarParciales()" required>
                         <option value="">Selecciona un grupo</option>
                     </select>
                 </div>
                 <div class="content">
                     <label for="parcial">Parcial</label>
-                    <select name="parcial" id="parcial">
-                        <option value="">Selecciona un parcial</option>
+                    <select name="parcial" id="parcial" required>
+                        <option value="">Selecciona un parcial</option required>
                     </select>
                 </div>
                 <div class="content">
                     <label for="maestro">Maestro</label>
-                    <select name="maestro" id="maestro" onchange="cargarMaterias()">
+                    <select name="maestro" id="maestro" onchange="cargarMaterias()" required>
                         <option value="">Seleccione un maestro</option>
                         <?php
 
@@ -77,7 +78,7 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="content">
                     <label for="materia">Materia</label>
-                    <select name="materia" id="materia">
+                    <select name="materia" id="materia" required>
                         <option value="">Selecciona una materia</option>
                     </select>
                 </div>
@@ -87,6 +88,13 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </form>
         </div>
     </main>
+        <nav>
+            <ul>
+                <li>
+                    <a href="inicio.php">Regresar</a>
+                </li>
+            </ul>
+        </nav>
 
     <script>
     async function cargarOpciones(url, parametros, selectId) {
@@ -102,7 +110,6 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
 
             const data = await response.text();
-            console.log(data); // Verifica que el HTML que estás recibiendo es el esperado
             selectElement.innerHTML = data;
 
         } catch (error) {
