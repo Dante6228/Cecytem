@@ -22,9 +22,8 @@ $idExamen = $pdo->lastInsertId();
 $query2 = "SELECT r.id, r.pregunta, r.idTema
         FROM reactivos r
         JOIN materia_maestro mm ON r.materia_maestro_id = mm.id
-        JOIN semestre_grupo_parcial sgp ON sgp.idParcial = :parcial_id
-        WHERE sgp.idSG = mm.idMateria
-        AND mm.idMateria = :materia_id
+        WHERE mm.idMateria = :materia_id
+        AND r.idParcial = :parcial_id
         ORDER BY RAND()
         LIMIT 5;
 ";
