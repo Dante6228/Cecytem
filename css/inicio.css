@@ -28,6 +28,7 @@ a{
     background-color: #fd8c88;
     padding: 15px;
     margin-top: 40px;
+    margin-right: 12px;
     border-radius: 8px;
     transition: 0.4s;
     cursor: pointer;

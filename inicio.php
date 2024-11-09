@@ -1,3 +1,21 @@
+<?php
+
+require_once __DIR__ . "/php/conexion/conexion.php";
+
+$pdo = conn::conn();
+
+session_start();
+
+$query = "SELECT * FROM usuario where id = " . $_SESSION['id'];
+
+$stmt = $pdo->prepare($query);
+
+$stmt->execute();
+
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +31,17 @@
     <main>
         <div>
             <a href="crearExamen.php">Crear examen</a>
-            <a href="cuentas.php">Usuarios</a>
+            <?php
+            
+                if($usuario['idTipo'] == 1){
+                    echo "<a href='cuentas.php'>Usuarios</a>";
+                    echo "<a href='maestros.php'>Maestros</a>";
+                } else{
+                    echo "No es admin :(";
+                }
+
+            ?>
+            
         </div>
     </main>
 </body>

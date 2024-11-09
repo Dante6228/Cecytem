@@ -12,7 +12,14 @@ $query = "SELECT * FROM usuario WHERE usuario = :usuario AND pswd = :contrasena"
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':usuario', $usuario);
 $stmt->bindParam(':contrasena', $contrasena);
+$stmt->execute();
 
-if($stmt->execute()){
+$datos = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if($datos){
+    session_start();
+    $_SESSION['usuario'] = $datos['usuario'];
+    $_SESSION['tipo'] = $datos['idTipo'];
+    $_SESSION['id'] = $datos['id'];
     header('Location: ../../inicio.php');
 }
