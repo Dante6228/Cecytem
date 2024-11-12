@@ -9,6 +9,7 @@
     <title>Iniciar sesión</title>
 </head>
 <body>
+    <h1>Iniciar sesión</h1>
     <main>
         <form action="php/login/login.php" method="post">
             <div class="content">

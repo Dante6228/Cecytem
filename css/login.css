@@ -1,3 +1,12 @@
+h1{
+    background-color: #fc8091;
+    width: 20%;
+    margin: auto;
+    margin-top: 100px;
+    padding: 10PX;
+    border-radius: 12px;
+}
+
 main{
     display: flex;
     align-items: center;
@@ -6,7 +15,7 @@ main{
     background-color: #fc8091;
     width: 16%;
     border-radius: 12px;
-    margin: 100px auto;
+    margin: 50px auto;
     padding: 30px;
 }
 
