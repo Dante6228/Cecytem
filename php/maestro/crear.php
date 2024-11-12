@@ -15,7 +15,7 @@ $stmt->bindParam(':idMateria', $materia);
 $stmt->bindParam(':idMaestro', $maestro);
 
 if($stmt->execute()){
-    header("Location: ../../crearMaestro.php");
+    header("Location: ../../maestros.php");
 } else{
     echo "Error al relacionar el maestro con la materia";
 }

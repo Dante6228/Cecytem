@@ -1,0 +1,33 @@
+.contenedor{
+    display: flex;
+    justify-content: center;
+    gap: 220px;
+}
+h2{
+    text-align: center;
+    margin-top: 30px;
+    background-color: #fc8091;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+table{
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 25px auto;
+}
+
+th, td{
+    padding: 10px;
+    text-align: left;
+    border: 1px solid;
+}
+
+nav{
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+a{
+    text-decoration: none;
+}

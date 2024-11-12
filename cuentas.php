@@ -28,29 +28,8 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/cuentas.css">
     <title>Usuarios</title>
-    <style>
-        table{
-            border: 1px solid #ccc;
-            border-collapse: collapse;
-            margin: 25px auto;
-        }
-
-        th, td{
-            padding: 10px;
-            text-align: left;
-            border: 1px solid;
-        }
-
-        nav{
-            height: 100px;
-            display: flex;
-            align-items: center;
-        }
-        a{
-            text-decoration: none;
-        }
-    </style>
 </head>
 <body>
     <header>

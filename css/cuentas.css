@@ -1,0 +1,21 @@
+table{
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 25px auto;
+}
+
+th, td{
+    padding: 10px;
+    text-align: left;
+    border: 1px solid;
+}
+
+nav{
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+a{
+    text-decoration: none;
+}
