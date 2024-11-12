@@ -105,7 +105,7 @@ INSERT INTO tipoUsuario (descripcion) VALUES
     ('Empleado');
 
 INSERT INTO usuario (nombre, ap, am, pswd, usuario, idTipo) VALUES
-    ('Director', 'General', 'Administrador', '123', 'Admin', 1);
+    ('Director', 'General', 'Administrador', 'Cecytem', 'Director', 1);
 
 INSERT INTO semestre (descripcion) VALUES
     ('Primer Semestre'),

@@ -4,12 +4,14 @@ require_once __DIR__ . "../../conexion/conexion.php";
 
 $pdo = conn::conn();
 
+// Obtención de las variables post
 $semestre = $_POST['semestre'];
 $grupo = $_POST['grupo'];
 $parcial = $_POST['parcial'];
 $maestro = $_POST['maestro'];
 $materia = $_POST['materia'];
 
+// Consulta para obtener los datos del examen (materia, parcial, semestre, grupo, maestro)
 $query = "
     SELECT
         m.descripcion AS materia,
@@ -38,6 +40,7 @@ $stmt->bindParam(':maestro_id', $maestro);
 $stmt->execute();
 $titulo = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Valida si se encontró información para generar el título del examen
 if ($titulo) {
     // Concatenar los datos para crear el título del examen
     $titulo_examen = $titulo['materia'] . " - " . $titulo['parcial'] . " - " . $titulo['semestre'] . " - " . $titulo['grupo'] . " - " . $titulo['maestro'];
@@ -48,7 +51,7 @@ if ($titulo) {
 // Inserta un nuevo examen
 $query = "INSERT INTO examen (titulo) VALUES (:titulo)";
 $stmt = $pdo->prepare($query);
-$stmt->bindParam(':titulo', $titulo_examen);  // Aquí se debe pasar $titulo_examen, no $titulo
+$stmt->bindParam(':titulo', $titulo_examen);
 $stmt->execute();
 $idExamen = $pdo->lastInsertId();
 
@@ -87,6 +90,7 @@ $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <main>
         <div class="examen">
             <?php
+            // Muestra el formulario para responder al examen
                 if ($preguntas) {
                     echo "<form action='procesar_respuestas.php' method='POST'>";
                     echo "<input type='hidden' name='titulo_examen' value='$titulo_examen'>";
