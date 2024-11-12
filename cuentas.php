@@ -61,12 +61,14 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Usuario</th>
                 <th>Tipo de usuario</th>
             </tr>
             <?php foreach ($usuarios as $usuario) : ?>
                 <tr>
                     <td><?php echo htmlspecialchars($usuario['id']); ?></td>
                     <td><?php echo htmlspecialchars($usuario['nombre'] . " " . $usuario['ap'] . " " . $usuario['am']); ?></td>
+                    <td><?php echo htmlspecialchars($usuario['usuario']);?></td>
                     <td><?php echo htmlspecialchars($usuario['tipo_usuario']); ?></td>
                 </tr>
             <?php endforeach; ?>

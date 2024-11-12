@@ -36,12 +36,10 @@ $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($usuario['idTipo'] == 1){
                     echo "<a href='cuentas.php'>Usuarios</a>";
                     echo "<a href='maestros.php'>Maestros</a>";
-                } else{
-                    echo "No es admin :(";
                 }
 
             ?>
-            
+            <a href="php/login/cerrarSesion.php">Cerrar sesión</a>
         </div>
     </main>
 </body>
