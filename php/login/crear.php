@@ -23,7 +23,7 @@ $stmt->bindParam(':pwd', $pwd);
 $stmt->bindParam(':tipo', $tipo);
 
 if($stmt->execute()){
-    header("Location: ../../crearUsuario.php");
+    header("Location: ../../cuentas.php?msj=creado");
 } else{
     echo "Error al crear el usuario";
 }

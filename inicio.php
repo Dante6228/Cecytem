@@ -35,7 +35,7 @@ $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
             
                 if($usuario['idTipo'] == 1){
                     echo "<a href='cuentas.php'>Usuarios</a>";
-                    echo "<a href='maestros.php'>Maestros</a>";
+                    echo "<a href='maestros.php'>Maestros y materias</a>";
                 }
 
             ?>

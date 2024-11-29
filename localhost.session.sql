@@ -16,7 +16,7 @@ CREATE TABLE usuario(
     usuario VARCHAR(50) NOT NULL,
     actividad BOOLEAN NOT NULL,
     idTipo INT NOT NULL,
-    FOREIGN KEY (idTipo) REFERENCES tipoUsuario(id)
+    FOREIGN KEY (idTipo) REFERENCES tipoUsuario(id) ON DELETE CASCADE
 );
 
 CREATE TABLE semestre(
@@ -38,8 +38,8 @@ CREATE TABLE semestre_grupo(
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     idSemestre INT NOT NULL,
     idGrupo INT NOT NULL,
-    FOREIGN KEY (idSemestre) REFERENCES semestre(id),
-    FOREIGN KEY (idGrupo) REFERENCES grupo(id)
+    FOREIGN KEY (idSemestre) REFERENCES semestre(id) ON DELETE CASCADE, 
+    FOREIGN KEY (idGrupo) REFERENCES grupo(id) ON DELETE CASCADE
 );
 
 CREATE TABLE materia(
@@ -56,8 +56,8 @@ CREATE TABLE materia_maestro(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     idMateria INT NOT NULL,
     idMaestro INT NOT NULL,
-    FOREIGN KEY (idMateria) REFERENCES materia(id),
-    FOREIGN KEY (idMaestro) REFERENCES maestro(id)
+    FOREIGN KEY (idMateria) REFERENCES materia(id) ON DELETE CASCADE,
+    FOREIGN KEY (idMaestro) REFERENCES maestro(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tema (
@@ -71,9 +71,9 @@ CREATE TABLE reactivos(
     materia_maestro_id INT NOT NULL,
     idTema INT NOT NULL,
     idParcial INT NOT NULL,
-    FOREIGN KEY (idParcial) REFERENCES parcial(id),
-    FOREIGN KEY (materia_maestro_id) REFERENCES materia_maestro(id),
-    FOREIGN KEY (idTema) REFERENCES tema(id)
+    FOREIGN KEY (idParcial) REFERENCES parcial(id) ON DELETE CASCADE,
+    FOREIGN KEY (materia_maestro_id) REFERENCES materia_maestro(id) ON DELETE CASCADE,
+    FOREIGN KEY (idTema) REFERENCES tema(id) ON DELETE CASCADE
 );
 
 CREATE TABLE opciones (
@@ -81,7 +81,7 @@ CREATE TABLE opciones (
     reactivo_id INT NOT NULL,
     descripcion VARCHAR(50) NOT NULL,
     es_correcta BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (reactivo_id) REFERENCES reactivos(id)
+    FOREIGN KEY (reactivo_id) REFERENCES reactivos(id) ON DELETE CASCADE
 );
 
 CREATE TABLE examen(
@@ -93,8 +93,8 @@ CREATE TABLE examen_reactivo (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     examen_id INT NOT NULL,
     reactivo_id INT NOT NULL,
-    FOREIGN KEY (examen_id) REFERENCES examen(id),
-    FOREIGN KEY (reactivo_id) REFERENCES reactivos(id)
+    FOREIGN KEY (examen_id) REFERENCES examen(id) ON DELETE CASCADE,
+    FOREIGN KEY (reactivo_id) REFERENCES reactivos(id) ON DELETE CASCADE
 );
 
 -- //////////////////////////////////////////////////////////

@@ -7,11 +7,12 @@ $pdo = conn::conn();
 session_start();
 
 $query = "
-    SELECT m.nombre AS maestro, mt.descripcion AS materia
+    SELECT mm.id AS id_materia_maestro, m.nombre AS maestro, mt.descripcion AS materia
     FROM maestro m
     INNER JOIN materia_maestro mm ON m.id = mm.idMaestro
     INNER JOIN materia mt ON mm.idMateria = mt.id
 ";
+
 
 $stmt = $pdo->prepare($query);
 $stmt->execute();
@@ -39,15 +40,19 @@ $materias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/maestros.css">
-    <title>Maestros</title>
+    <title>Maestros y materias</title>
 </head>
 <body>
     <header>
-        <h1>Maestros</h1>
+        <h1>Maestros y materias</h1>
     </header>
     <main>
+        <?php
+            if(isset($_GET["msj"]) && $_GET["msj"] === "exito"){
+                echo "<p class='exito'>El maestro y su materia se ha eliminado correctamente</p>";
+            }
+        ?>
         <div class="contenedor">
             <div>
                 <h2>Lista de Maestros y sus Materias</h2>
@@ -57,6 +62,7 @@ $materias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <tr>
                                 <th>Maestro</th>
                                 <th>Materia</th>
+                                <th>Borrar/actualizar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,6 +70,10 @@ $materias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <tr>
                                     <td><?php echo htmlspecialchars($maestro['maestro']); ?></td>
                                     <td><?php echo htmlspecialchars($maestro['materia']); ?></td>
+                                    <td>
+                                        <?php echo "<a href='php/maestro/borrar.php?id=" . urlencode($maestro['id_materia_maestro']) . "'>Borrar</a>"; ?>
+                                        <?php echo "<a href='php/maestro/actualizar.php?id=" . urlencode($maestro['id_materia_maestro']) . "'>Actualizar</a>"; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -79,18 +89,23 @@ $materias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <thead>
                             <tr>
                                 <th>Maestro</th>
+                                <th>Borrar/actualizar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($maestros2 as $maestro): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($maestro['nombre']); ?></td>
+                                    <td>
+                                        <?php echo "<a href='php/maestro/borrarMaestro.php?id=" . urlencode($maestro['id']) . "'>Borrar</a>"; ?>
+                                        <?php echo "<a href='php/maestro/actualizarMaestro.php?id=" . urlencode($maestro['id']) . "'>Actualizar</a>"; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                 <?php else: ?>
-                    <p>No hay maestros o materias disponibles.</p>
+                    <p>No hay maestros disponibles.</p>
                 <?php endif; ?>
             </div>
             <div>
@@ -99,19 +114,24 @@ $materias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <table>
                         <thead>
                             <tr>
-                                <th>Maestro</th>
+                                <th>Materia</th>
+                                <th>Borrar/actualizar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($materias as $materia): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($materia['descripcion']); ?></td>
+                                    <td>
+                                        <?php echo "<a href='php/maestro/borrarMateria.php?id=" . urlencode($materia['id']) . "'>Borrar</a>"; ?>
+                                        <?php echo "<a href='php/maestro/actualizarMaeteria.php?id=" . urlencode($materia['id']) . "'>Actualizar</a>"; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                 <?php else: ?>
-                    <p>No hay maestros o materias disponibles.</p>
+                    <p>No hay materias disponibles.</p>
                 <?php endif; ?>
             </div>
         </div>

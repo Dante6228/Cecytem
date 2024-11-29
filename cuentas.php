@@ -27,7 +27,6 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/cuentas.css">
     <title>Usuarios</title>
 </head>
@@ -44,6 +43,11 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php
             if(isset($_GET['msj']) && $_GET["msj"] === "actualizado"){
                 echo "<p class='exito'>El usuario se ha actualizado correctamente</p>";
+            }
+        ?>
+        <?php
+            if(isset($_GET['msj']) && $_GET["msj"] === "creado"){
+                echo "<p class='exito'>El usuario se ha creado correctamente</p>";
             }
         ?>
         <table>
