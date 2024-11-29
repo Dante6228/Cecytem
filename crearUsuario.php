@@ -57,7 +57,7 @@ $tipos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="text" id="usuario" name="usuario" required>
             </div>
             <div class="input">
-                <label for="tipo">Permisos de usuario</label>
+                <label for="tipo">Tipo de usuario</label>
                 <select name="tipo" id="tipo" onchange="limpiarSelect('tipo')">
                     <option value="">Seleccione un tipo de usuario</option>
                     <?php foreach ($tipos as $tipo) {?>
