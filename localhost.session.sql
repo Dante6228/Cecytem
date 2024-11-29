@@ -14,6 +14,7 @@ CREATE TABLE usuario(
     am VARCHAR(50) NOT NULL,
     pswd VARCHAR(255) NOT NULL,
     usuario VARCHAR(50) NOT NULL,
+    actividad BOOLEAN NOT NULL,
     idTipo INT NOT NULL,
     FOREIGN KEY (idTipo) REFERENCES tipoUsuario(id)
 );
@@ -102,10 +103,10 @@ CREATE TABLE examen_reactivo (
 
 INSERT INTO tipoUsuario (descripcion) VALUES 
     ('Administrador'),
-    ('Empleado');
+    ('Directivo');
 
-INSERT INTO usuario (nombre, ap, am, pswd, usuario, idTipo) VALUES
-    ('Director', 'General', 'Administrador', 'Cecytem', 'Director', 1);
+INSERT INTO usuario (nombre, ap, am, pswd, usuario, actividad, idTipo) VALUES
+    ('Director', 'General', 'Administrador', 'Cecytem', 'Director', 1, 1);
 
 INSERT INTO semestre (descripcion) VALUES
     ('Primer Semestre'),

@@ -36,19 +36,40 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1>Lista de Usuarios</h1>
     </header>
     <main>
+        <?php
+            if(isset($_GET["msj"]) && $_GET["msj"] === "exito"){
+                echo "<p class='exito'>El usuario se ha eliminado correctamente</p>";
+            }
+        ?>
+        <?php
+            if(isset($_GET['msj']) && $_GET["msj"] === "actualizado"){
+                echo "<p class='exito'>El usuario se ha actualizado correctamente</p>";
+            }
+        ?>
         <table>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Usuario</th>
+                <th>Actividad</th>
                 <th>Tipo de usuario</th>
+                <th>Borrar/actualizar</th>
             </tr>
             <?php foreach ($usuarios as $usuario) : ?>
                 <tr>
                     <td><?php echo htmlspecialchars($usuario['id']); ?></td>
                     <td><?php echo htmlspecialchars($usuario['nombre'] . " " . $usuario['ap'] . " " . $usuario['am']); ?></td>
                     <td><?php echo htmlspecialchars($usuario['usuario']);?></td>
+                    <td><?php if($usuario['actividad'] === 1){
+                        echo htmlspecialchars('Activo');
+                    } else{
+                        echo htmlspecialchars('Inactivo');
+                    } ?></td>
                     <td><?php echo htmlspecialchars($usuario['tipo_usuario']); ?></td>
+                    <td>
+                        <?php echo "<a href='php/usuario/borrar.php?id=" . urlencode($usuario['id']) . "'>Borrar</a>"; ?>
+                        <?php echo "<a href='php/usuario/actualizar.php?id=" . urlencode($usuario['id']) . "'>Actualizar</a>"; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>

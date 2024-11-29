@@ -16,10 +16,14 @@ $stmt->execute();
 
 $datos = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if($datos){
+if($datos['actividad'] === 1){
     session_start();
     $_SESSION['usuario'] = $datos['usuario'];
     $_SESSION['tipo'] = $datos['idTipo'];
     $_SESSION['id'] = $datos['id'];
     header('Location: ../../inicio.php');
+} elseif($datos['actividad'] === 0){
+    header('Location:../../index.php?error=actividad');
+} else{
+    header('Location:../../index.php?error=noexiste');
 }

@@ -19,7 +19,6 @@ $tipos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/crearCuenta.css">
     <title>Crear cuenta</title>
 </head>
@@ -29,6 +28,14 @@ $tipos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </header>
     <main>
         <form action="php/login/crear.php" method="POST">
+            <div class="input">
+                <label for="actividad">Actividad</label>
+                <select name="actividad" id="actividad" onchange="limpiarSelect('actividad')">
+                    <option value="">Selecciona una opcion</option>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+            </div>
             <div class="input">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" required>
