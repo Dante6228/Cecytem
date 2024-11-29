@@ -50,7 +50,22 @@ $materias = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <main>
         <?php
             if(isset($_GET["msj"]) && $_GET["msj"] === "exito"){
-                echo "<p class='exito'>El maestro y su materia se ha eliminado correctamente</p>";
+                echo "<p class='exito'>Dato eliminado correctamente</p>";
+            }
+        ?>
+        <?php
+            if(isset($_GET["msj"]) && $_GET["msj"] === "actualizacion1"){
+                echo "<p class='exito'>El maestro y su materia se han actualizado correctamente</p>";
+            }
+        ?>
+        <?php
+            if(isset($_GET["msj"]) && $_GET["msj"] === "actualizacion2"){
+                echo "<p class='exito'>El maestro se ha actualizado correctamente</p>";
+            }
+        ?>
+        <?php
+            if(isset($_GET["msj"]) && $_GET["msj"] === "actualizacion3"){
+                echo "<p class='exito'>La materia se ha actualizado correctamente</p>";
             }
         ?>
         <div class="contenedor">
@@ -124,7 +139,7 @@ $materias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <td><?php echo htmlspecialchars($materia['descripcion']); ?></td>
                                     <td>
                                         <?php echo "<a href='php/maestro/borrarMateria.php?id=" . urlencode($materia['id']) . "'>Borrar</a>"; ?>
-                                        <?php echo "<a href='php/maestro/actualizarMaeteria.php?id=" . urlencode($materia['id']) . "'>Actualizar</a>"; ?>
+                                        <?php echo "<a href='php/maestro/actualizarMateria.php?id=" . urlencode($materia['id']) . "'>Actualizar</a>"; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

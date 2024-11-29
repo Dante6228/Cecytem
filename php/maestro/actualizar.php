@@ -24,6 +24,20 @@ $stmt = $pdo->prepare($query);
 $stmt->execute();
 $maestros = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $maestro = $_POST['maestro'];
+    $materia = $_POST['materia'];
+    $id = $_POST['id'];
+
+    $query = "UPDATE materia_maestro SET idMaestro = :maestro, idMateria = :materia WHERE id = :id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':maestro', $maestro);
+    $stmt->bindParam(':materia', $materia);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    header("Location:../../maestros.php?msj=actualizacion1");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +53,8 @@ $maestros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1>Actualizar materia del docente</h1>
     </header>
     <main>
-        <form action="php/maestro/crear.php" method="POST">
+        <form action="?" method="POST">
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET['id']) ?>">
             <div class="input">
                 <label for="maestro">Docente</label>
                 <select name="maestro" id="maestro" onchange="limpiarSelect('maestro')">
@@ -69,7 +84,7 @@ $maestros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="input">
-                <button type="submit">Crear relación</button>
+                <button type="submit">Actualizar relación</button>
             </div>
         </form>
     </main>
