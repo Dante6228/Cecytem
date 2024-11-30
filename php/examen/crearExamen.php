@@ -4,6 +4,8 @@ require_once __DIR__ . "../../conexion/conexion.php";
 
 $pdo = conn::conn();
 
+$pdo->exec("SET NAMES 'utf8'");
+
 // Obtención de las variables post
 $semestre = $_POST['semestre'];
 $grupo = $_POST['grupo'];
@@ -11,7 +13,6 @@ $parcial = $_POST['parcial'];
 $maestro = $_POST['maestro'];
 $materia = $_POST['materia'];
 
-// Consulta para obtener los datos del examen (materia, parcial, semestre, grupo, maestro)
 $query = "
     SELECT
         m.descripcion AS materia,
@@ -42,8 +43,7 @@ $titulo = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Valida si se encontró información para generar el título del examen
 if ($titulo) {
-    // Concatenar los datos para crear el título del examen
-    $titulo_examen = $titulo['materia'] . " - " . $titulo['parcial'] . " - " . $titulo['semestre'] . " - " . $titulo['grupo'] . " - " . $titulo['maestro'];
+    $titulo_examen = $titulo['materia'] . " " . $titulo['parcial'] . " " . $titulo['semestre'] . " " . $titulo['grupo'] . " " . $titulo['maestro'];
 } else {
     echo "No se encontró información para generar el título del examen.";
 }
@@ -63,7 +63,7 @@ $query = "
     WHERE mm.idMateria = :materia_id
     AND r.idParcial = :parcial_id
     ORDER BY RAND()
-    LIMIT 6;
+    LIMIT 10;
 ";
 
 $stmt = $pdo->prepare($query);
@@ -72,79 +72,58 @@ $stmt->bindParam(':materia_id', $materia);
 $stmt->execute();
 $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-?>
+require_once __DIR__ . '/tcpdf/tcpdf.php';
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/examen.css">
-    <link rel="stylesheet" href="../../css/general.css">
-    <title>Examen <?php echo $titulo['materia']?></title>
-</head>
-<body>
-    <header>
-        <h1>Examen <?php echo $titulo_examen?></h1>
-    </header>
-    <main>
-        <div class="examen">
-            <?php
-            // Muestra el formulario para responder al examen
-                if ($preguntas) {
-                    echo "<form action='procesar_respuestas.php' method='POST'>";
-                    echo "<input type='hidden' name='titulo_examen' value='$titulo_examen'>";
+// Crear un nuevo PDF
+$pdf = new TCPDF();
+$pdf->SetFont('dejavusans', '', 12);
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Cecytem');
+$pdf->SetTitle('Examen ' . $titulo_examen);
+$pdf->SetHeaderData('', 0, 'Examen ' . $titulo['materia'], $titulo_examen);
 
-                    foreach ($preguntas as $pregunta) {
-                        $reactivo_id = $pregunta['reactivo_id'];
-                        $texto_pregunta = $pregunta['pregunta'];
+// Configuración del PDF
+$pdf->setHeaderFont(['helvetica', '', 12]);
+$pdf->setFooterFont(['helvetica', '', 8]);
+$pdf->SetMargins(15, 27, 15);
+$pdf->SetHeaderMargin(5);
+$pdf->SetFooterMargin(10);
+$pdf->SetAutoPageBreak(true, 25);
+$pdf->AddPage();
 
-                        // Muestra la pregunta
-                        echo "<h3>$texto_pregunta</h3>";
+// Contenido del examen
+$html = "<h1 style='text-align: center;'>Examen: $titulo_examen</h1>";
 
-                        // Inserta la pregunta en la tabla examen_reactivo para asociarla con el examen actual
-                        $query = "INSERT INTO examen_reactivo (examen_id, reactivo_id) VALUES (:examen_id, :reactivo_id)";
-                        $stmt = $pdo->prepare($query);
-                        $stmt->bindParam(':examen_id', $idExamen);
-                        $stmt->bindParam(':reactivo_id', $reactivo_id);
-                        $stmt->execute();
+$html .= "<strong>Nombre: ____________________________________________________________</strong><br><br>";
+$html .= "<strong>Calificación: ________</strong>";
 
-                        // Selecciona las opciones de respuesta para la pregunta actual
-                        $query = "SELECT id, descripcion, es_correcta FROM opciones WHERE reactivo_id = :reactivo_id";
-                        $stmt_opciones = $pdo->prepare($query);
-                        $stmt_opciones->bindParam(':reactivo_id', $reactivo_id);
-                        $stmt_opciones->execute();
-                        $opciones = $stmt_opciones->fetchAll(PDO::FETCH_ASSOC);
+if ($preguntas) {
+    foreach ($preguntas as $pregunta) {
+        $reactivo_id = $pregunta['reactivo_id'];
+        $texto_pregunta = $pregunta['pregunta'];
 
-                        // Muestra las opciones como radio buttons
-                        foreach ($opciones as $opcion) {
-                            $opcion_id = $opcion['id'];
-                            $descripcion = $opcion['descripcion'];
-                            
-                            echo "<div class='opcion'>";
-                            echo "<label>";
-                            echo "<input type='radio' name='respuesta_$reactivo_id' value='$opcion_id'> $descripcion";
-                            echo "</label><br>";
-                            echo "</div";
-                        }
-                        echo "<br>";
-                    }
+        $html .= "<h3>$texto_pregunta</h3>";
 
-                    echo "<button type='submit' value='Enviar'>Enviar respuesta</button>";
-                    echo "</form>";
-                } else {
-                    echo "No se encontraron reactivos.";
-                }
-            ?>
-        </div>
-    </main>
-    <nav>
-        <ul>
-            <li>
-                <a href="../../inicio.php">Regresar al menú principal</a>
-            </li>
-        </ul>
-    </nav>
-</body>
-</html>
+        // Opciones de respuesta
+        $query = "SELECT descripcion FROM opciones WHERE reactivo_id = :reactivo_id";
+        $stmt_opciones = $pdo->prepare($query);
+        $stmt_opciones->bindParam(':reactivo_id', $reactivo_id);
+        $stmt_opciones->execute();
+        $opciones = $stmt_opciones->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($opciones as $opcion) {
+            $descripcion = $opcion['descripcion'];
+            $html .= "<p><strong>O</strong> $descripcion</p>";
+        }
+        $html .= "<br>";
+    }
+} else {
+    $html .= "<p>No se encontraron reactivos.</p>";
+}
+
+// Escribir contenido en el PDF
+$pdf->writeHTML($html, true, false, true, false, '');
+
+$pdf->Output('examen.pdf', 'D');
+
 
