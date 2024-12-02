@@ -64,4 +64,4 @@ if ($preguntas) {
 }
 
 $pdf->writeHTML($html, true, false, true, false, '');
-$pdf->Output("Examen_$idExamen.pdf", 'D'); // Descarga directa
+$pdf->Output("Examen_$idExamen.pdf", 'D');
