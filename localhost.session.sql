@@ -97,6 +97,14 @@ CREATE TABLE examen_reactivo (
     FOREIGN KEY (reactivo_id) REFERENCES reactivos(id) ON DELETE CASCADE
 );
 
+CREATE TABLE examen_preguntas (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idExamen INT NOT NULL,
+    idPregunta INT NOT NULL,
+    FOREIGN KEY (idExamen) REFERENCES examen(id) ON DELETE CASCADE,
+    FOREIGN KEY (idPregunta) REFERENCES reactivos(id) ON DELETE CASCADE
+);
+
 -- //////////////////////////////////////////////////////////
 -- INSERCIONES A TABLAS NECESARIAS
 -- //////////////////////////////////////////////////////////
