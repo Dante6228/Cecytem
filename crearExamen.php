@@ -4,14 +4,6 @@ require_once __DIR__ . "/php/conexion/conexion.php";
 
 $pdo = conn::conn();
 
-$query = "SELECT * FROM maestro";
-
-$stmt = $pdo->prepare($query);
-
-$stmt->execute();
-
-$maestros = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 $query = "SELECT * FROM semestre";
 
 $stmt = $pdo->prepare($query);
@@ -66,13 +58,6 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <label for="maestro">Maestro</label>
                     <select name="maestro" id="maestro" onchange="cargarMaterias()" required>
                         <option value="">Seleccione un maestro</option>
-                        <?php
-
-                        foreach ($maestros as $maestro){
-                            echo '<option value="'. $maestro['id']. '">'. $maestro['nombre']. '</option>';
-                        }
-
-                        ?>
                     </select>
                 </div>
                 <div class="content">
@@ -133,7 +118,15 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
         let grupo = document.getElementById("grupo").value;
         cargarOpciones('php/examen/obtener_parcial.php', `semestre=${semestre}&grupo=${grupo}`, "parcial");
         limpiarSelect('grupo');
+        cargarMaestros();
+}
+
+    function cargarMaestros() {
+        let semestre = document.getElementById("semestre").value;
+        let grupo = document.getElementById("grupo").value;
+        cargarOpciones('php/examen/obtener_maestros.php', `semestre=${semestre}&grupo=${grupo}`, "maestro");
     }
+
 
     function limpiarSelect(id) {
         const select = document.getElementById(id);
