@@ -5,6 +5,28 @@ require_once __DIR__ . "/../conexion/conexion.php";
 $pdo = conn::conn();
 
 $idExamen = $_GET['idExamen'];
+$idParcial = $_GET['idParcial'];
+$idMateria = $_GET['idMateria'];
+
+$query_maestro_materia = "
+    SELECT mm.id AS materia_maestro_id
+    FROM materia_maestro mm
+    JOIN materia m ON mm.idMateria = m.id
+    JOIN maestro ma ON mm.idMaestro = ma.id
+    WHERE m.id = :idMateria
+";
+$stmt_maestro_materia = $pdo->prepare($query_maestro_materia);
+$stmt_maestro_materia->bindParam(':idMateria', $idMateria);
+$stmt_maestro_materia->execute();
+$materia_maestro = $stmt_maestro_materia->fetch(PDO::FETCH_ASSOC);
+
+// Verificar que se haya encontrado el materia_maestro_id
+if ($materia_maestro) {
+    $materiaMaestroId = $materia_maestro['materia_maestro_id'];
+} else {
+    echo "No se encontró la relación materia-maestro.";
+    exit;
+}
 
 $query = "
     SELECT r.id AS pregunta_id, r.pregunta, o.id AS opcion_id, o.descripcion, o.es_correcta
@@ -40,9 +62,12 @@ foreach ($data as $row) {
     $preguntas[$preguntaId]['opciones'][] = $opcion;
 }
 
-$query_todas = "SELECT id, pregunta FROM reactivos";
-$stmt_todas = $pdo->query($query_todas);
+$query_todas = "SELECT id, pregunta FROM reactivos WHERE materia_maestro_id = :materiaMaestroId";
+$stmt_todas = $pdo->prepare($query_todas);
+$stmt_todas->bindParam(':materiaMaestroId', $materiaMaestroId, PDO::PARAM_INT);
+$stmt_todas->execute();
 $todas_preguntas = $stmt_todas->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>

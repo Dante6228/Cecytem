@@ -52,6 +52,27 @@ $stmt->bindParam(':titulo', $titulo_examen);
 $stmt->execute();
 $idExamen = $pdo->lastInsertId();
 
+// Obtener materia_maestro_id
+$query_maestro_materia = "
+    SELECT mm.id AS materia_maestro_id
+    FROM materia_maestro mm
+    WHERE mm.idMateria = :materia_id AND mm.idMaestro = :maestro_id
+";
+
+$stmt_maestro_materia = $pdo->prepare($query_maestro_materia);
+$stmt_maestro_materia->bindParam(':materia_id', $materia);
+$stmt_maestro_materia->bindParam(':maestro_id', $maestro);
+$stmt_maestro_materia->execute();
+$materia_maestro = $stmt_maestro_materia->fetch(PDO::FETCH_ASSOC);
+
+if ($materia_maestro) {
+    $materia_maestro_id = $materia_maestro['materia_maestro_id'];
+} else {
+    echo "No se encontró el ID de materia-maestro.";
+    exit;
+}
+
+// Seleccionar preguntas
 $query = "
     SELECT r.id AS reactivo_id, r.pregunta
     FROM reactivos r
@@ -78,6 +99,6 @@ if ($preguntas) {
     }
 }
 
-header("Location: editar_examen.php?idExamen=$idExamen");
-
+// Redireccionar con el materia_maestro_id
+header("Location: editar_examen.php?idExamen=$idExamen&idMateria=$materia&idParcial=$parcial&materiaMaestroId=$materia_maestro_id");
 exit();
