@@ -110,11 +110,25 @@ CREATE TABLE examen_preguntas (
 -- //////////////////////////////////////////////////////////
 
 INSERT INTO tipoUsuario (descripcion) VALUES 
-    ('Administrador'),
-    ('Directivo');
+    ('Director'),
+    ('Coordinador Escolar'),
+    ('Control Escolar'),
+    ('Vinculación'),
+    ('Orientación');
 
 INSERT INTO usuario (nombre, ap, am, pswd, usuario, actividad, idTipo) VALUES
-    ('Director', 'General', 'Administrador', 'Cecytem', 'Director', 1, 1);
+    ('Yovany', 'Vergara', 'Cortés', 'Contraseña', 'Director', 1, 1),
+    ('Grisel', 'Becerra', 'Olmos', 'Contraseña', 'Grisel', 1, 2),
+    ('Marcela', 'Pérez', 'Rodríguez', 'Contraseña', 'Marcela', 1, 2),
+    ('Israel', 'Mendoza', 'Enzaldo', 'Contraseña', 'Israel', 1, 3),
+    ('Gladys Liliana', 'Cruz', 'Garcia', 'Contraseña', 'Gladys Liliana', 1, 4),
+    ('Jaqueline', 'Curiel', 'Rios', 'Contraseña', 'Jaqueline', 1, 4),
+    ('Aura Jimena', 'Fajardo', 'Lopez', 'Contraseña', 'Aura Jimena', 1, 4),
+    ('Juana Maria', 'Luna', 'Vital', 'Contraseña', 'Juana Maria', 1, 5),
+    ('Denesis Pamela', 'Morales', 'Rivero', 'Contraseña', 'Morales Rivero', 1, 5),
+    ('Rosario Elena', 'Romo', 'Torres', 'Contraseña', 'Rosario Elena', 1, 5),
+    ('Gabriela', 'Rosas', 'Islas', 'Contraseña', 'Gabriela', 1, 5),
+    ('Itzel', 'Velazquez', 'Aguilar', 'Contraseña', 'Itzel', 1, 5);
 
 INSERT INTO semestre (descripcion) VALUES
     ('Primer Semestre'),

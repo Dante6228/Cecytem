@@ -78,6 +78,6 @@ if ($preguntas) {
     }
 }
 
-header("Location: editar_examen.php?idExamen=$idExamen");
+header("Location: editar_examen.php?idExamen=$idExamen&idParcial=$parcial&idSemestre=$semestre&idGrupo=$grupo&idMateria=$materia&idMaestro=$maestro");
 
 exit();

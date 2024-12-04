@@ -50,7 +50,7 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="content">
                     <label for="parcial">Parcial</label>
-                    <select name="parcial" id="parcial" required>
+                    <select name="parcial" id="parcial" onchange="cargarMaestros()" required>
                         <option value="">Selecciona un parcial</option required>
                     </select>
                 </div>
@@ -118,7 +118,6 @@ $semestres = $stmt->fetchAll(PDO::FETCH_ASSOC);
         let grupo = document.getElementById("grupo").value;
         cargarOpciones('php/examen/obtener_parcial.php', `semestre=${semestre}&grupo=${grupo}`, "parcial");
         limpiarSelect('grupo');
-        cargarMaestros();
 }
 
     function cargarMaestros() {
