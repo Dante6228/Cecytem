@@ -1,0 +1,99 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    background-color: #fc8091;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+}
+
+main {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #fc8091;
+}
+
+input[type="radio"] {
+    margin-right: 8px;
+}
+
+button {
+    padding: 10px;
+    font-size: 1rem;
+    color: white;
+    background-color: #fc8091;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    align-self: flex-start;
+}
+
+button:hover {
+    background-color: #fa6a64;
+}
+
+.no-results, .no-selection {
+    font-size: 16px;
+    color: #ff4d4d;
+    text-align: center;
+}
+
+.no-results {
+    margin-top: 15px;
+}
+
+.no-selection {
+    margin-top: 30px;
+}
+
+.correcta {
+    font-weight: bold;
+    color: green;
+}
+
+.correcta-text {
+    font-size: 0.9em;
+    color: green;
+}

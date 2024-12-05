@@ -59,6 +59,7 @@ session_start();
     <nav>
         <ul>
             <li>
+                <a href="crearPregunta.php">Crear pregunta</a>
                 <a href="inicio.php">Regresar</a>
             </li>
         </ul>

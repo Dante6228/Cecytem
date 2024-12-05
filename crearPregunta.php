@@ -148,6 +148,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </main>
     
-    <a href="inicio.php">Regresar</a>
+    <a href="preguntas.php">Regresar</a>
 </body>
 </html>
